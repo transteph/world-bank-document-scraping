@@ -1,0 +1,28 @@
+
+        --- DOCUMENTS TO SCRAPE ---
+
+  A) Working Papers ( https://openknowledge.worldbank.org/handle/10986/8 )
+   n =  10191
+    1.	Development Knowledge and Learning
+    2.	ESMAP papers
+    3.	Extractive Industries for Development
+    4.	Global Partnership for Education WP Series on Learning
+    5.	Health, Nutrition and Population (HNP) Discussion Papers
+    6.	Justice and Development Working Paper Series
+    7.	Other papers
+    8.	Policy Research Notes
+    9.	Policy Research Working Papers
+    10.	Social Protection and Jobs Discussion Papers
+    11.	South Asia Human Development Sector Discussion Papers
+    12.	SSA Transport Policy Program Papers .
+    13.	Transport Papers
+    14.	UNICO Studies Series
+    15.	Water and Sanitation Program
+    16.	Water Papers
+    17.	World Development Report Background Papers
+
+  B) Technical Papers ( https://openknowledge.worldbank.org/handle/10986/18022 )
+  n = 574
+
+  C) Speeches of World Bank presidents ( https://openknowledge.worldbank.org/handle/10986/24239)
+    n = 238
