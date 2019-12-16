@@ -108,6 +108,16 @@ a1 <- data.table(
   date  = xml_find_all(r, ".//d1:datestamp") %>% xml_text(),
   stringsAsFactors = FALSE )
 
+# Create a blank workbook
+OUT <- createWorkbook()
+
+# Add some sheets to the workbook
+addWorksheet(OUT, "a1")
+
+# Write the data to the sheets
+writeDataTable(OUT, sheet = "a1", x = a1)
+
+
 # --------------------------------------------------
 # A.2.	ESMAP papers (n=364)
 # --------------------------------------------------
@@ -186,10 +196,12 @@ a2 <- data.table(
   'date'  = date[1:i],
   stringsAsFactors = FALSE )
 
-# combine a1 and a2
-#combined_papers <- rbind(a1, a2, fill=TRUE)
 
-# write.xlsx(aa, "a1-a2.xlsx")
+# Add some sheets to the workbook
+addWorksheet(OUT, "a2")
+
+# Write the data to the sheets
+writeDataTable(OUT, sheet = "a2", x = a2)
 
 
 # --------------------------------------------------
@@ -229,9 +241,11 @@ a3 <- data.table(
   'date'  = date[1:i],
   stringsAsFactors = FALSE )
 
-# combine to collection
-#combined_papers <- rbind(combined_papers, a3, fill=TRUE)
+# Add some sheets to the workbook
+addWorksheet(OUT, "a3")
 
+# Write the data to the sheets
+writeDataTable(OUT, sheet = "a3", x = a3)
 
 # --------------------------------------------------
 # A.4.		Global Partnership for Education WP Series on Learning (n=11)
@@ -270,8 +284,11 @@ a4 <- data.table(
   'date'  = date[1:i],
   stringsAsFactors = FALSE )
 
-# combine to collection
-#combined_papers <- rbind(combined_papers, a4, fill=TRUE)
+# Add some sheets to the workbook
+addWorksheet(OUT, "a4")
+
+# Write the data to the sheets
+writeDataTable(OUT, sheet = "a4", x = a4)
 
 # --------------------------------------------------
 # A.5.	Health, Nutrition and Population (HNP) (n=349)
@@ -344,7 +361,11 @@ a5 <- data.table(
 
 # combine all
 # combined_papers <- rbind(a1, a2, fill=TRUE)
+# Add some sheets to the workbook
+addWorksheet(OUT, "a5")
 
+# Write the data to the sheets
+writeDataTable(OUT, sheet = "a5", x = a5)
 
 # --------------------------------------------------
 # A.6.		Justice and Development (n=39)
@@ -383,28 +404,33 @@ a6 <- data.table(
   'date'  = date[1:i],
   stringsAsFactors = FALSE )
 
+# Add some sheets to the workbook
+addWorksheet(OUT, "a6")
 
+# Write the data to the sheets
+writeDataTable(OUT, sheet = "a6", x = a6)
 
+# --------------------------------------------------
+# A.7.		Other papers (n=1630)
+# --------------------------------------------------
 
+# id of subcategory
+temp_id <- "11866"
+
+# scrape through listings and create data table a7
+a7 <- createDT(7, base, base0, temp_id, 1631)
+
+# Add some sheets to the workbook
+addWorksheet(OUT, "a7")
+
+# Write the data to the sheets
+writeDataTable(OUT, sheet = "a7", x = a7)
 # --------------------------------------------------------
 #   Export into Excel file
 # --------------------------------------------------------
 
-# Create a blank workbook
-OUT <- createWorkbook()
-
-# Add some sheets to the workbook
-addWorksheet(OUT, "1")
-
-# Write the data to the sheets
-writeDataTable(OUT, sheet = 1, x = all)
-
 # Export the file
-saveWorkbook(OUT, "abstract-collection1.xlsx")
-
-
-
-
+saveWorkbook(OUT, "temp1.xlsx")
 
 # # run function on first set of websites
 # reportsTable <- map_dfr(a1_links, getReportInfo)
