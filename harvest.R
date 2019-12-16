@@ -6,6 +6,9 @@
 # 
 # --------------------------------------------------
 
+# load scrape function
+source("scrape.R")
+
 # required packages
 # install.packages('car')
 # install.packages('rio')
@@ -108,7 +111,6 @@ a1 <- data.table(
 # --------------------------------------------------
 # A.2.	ESMAP papers (n=364)
 # --------------------------------------------------
-
 #     parse url components 
 # base url for query 
 base <- "https://openknowledge.worldbank.org/oai/request?verb=ListRecords&metadataPrefix=oai_dc&set=col_10986_"
@@ -185,7 +187,7 @@ a2 <- data.table(
   stringsAsFactors = FALSE )
 
 # combine a1 and a2
-combined_papers <- rbind(a1, a2, fill=TRUE)
+#combined_papers <- rbind(a1, a2, fill=TRUE)
 
 # write.xlsx(aa, "a1-a2.xlsx")
 
@@ -228,7 +230,158 @@ a3 <- data.table(
   stringsAsFactors = FALSE )
 
 # combine to collection
-combined_papers <- rbind(combined_papers, a3, fill=TRUE)
+#combined_papers <- rbind(combined_papers, a3, fill=TRUE)
+
+
+# --------------------------------------------------
+# A.4.		Global Partnership for Education WP Series on Learning (n=11)
+# --------------------------------------------------
+
+# id of subcategory
+temp_id <- "16245"
+temp_url <- paste0(base, temp_id)
+
+# url for queries past first 100 docs
+temp_url0 <- paste0(base0, temp_id)
+
+# retrieve metadata first 100 docs
+r0 <- GET(temp_url)
+r0 <-content(r0, as="parsed")
+
+# check length of id
+r_id <-  xml_find_all(r0, ".//d1:identifier") %>% xml_text()
+i <- length(r_id)
+
+
+# put metadata into data table
+category = "Working Papers"
+subcategory = 4
+id   = xml_find_all(r0, ".//d1:identifier") %>% xml_text()
+title = xml_find_all(r0, ".//dc:title" ) %>% xml_text()
+abstract = xml_find_all(r0, ".//dc:description") %>% xml_text() %>% str_squish()
+date  = xml_find_all(r0, ".//d1:datestamp") %>% xml_text()
+
+a4 <- data.table( 
+  "category" = category,
+  "subcategory" = subcategory,
+  'id' = id[1:i],
+  'title' = title[1:i],
+  'abstract'= abstract[1:i],
+  'date'  = date[1:i],
+  stringsAsFactors = FALSE )
+
+# combine to collection
+#combined_papers <- rbind(combined_papers, a4, fill=TRUE)
+
+# --------------------------------------------------
+# A.5.	Health, Nutrition and Population (HNP) (n=349)
+# --------------------------------------------------
+
+# id of subcategory
+temp_id <- "12995"
+temp_url <- paste0(base, temp_id)
+
+# url for queries past first 100 docs
+temp_url0 <- paste0(base0, temp_id)
+
+# retrieve metadata first 100 docs
+r0 <- GET(temp_url)
+r0 <-content(r0, as="parsed")
+
+r1 <- GET(paste0(temp_url0, "/100"))
+r1 <-content(r1, as="parsed")
+
+r2 <- GET(paste0(temp_url0, "/200"))
+r2 <-content(r2, as="parsed")
+
+r3 <- GET(paste0(temp_url0, "/300"))
+r3 <-content(r3, as="parsed")
+
+# variable rx to hold combined scrapes
+rx <- r0
+
+# combine all queries into r0
+to_add <- xml_children(r1)
+for (child in to_add) {
+  xml_add_child(rx, child)
+}
+
+to_add <- xml_children(r2)
+for (child in to_add) {
+  xml_add_child(rx, child)
+}
+
+to_add <- xml_children(r3)
+for (child in to_add) {
+  xml_add_child(rx, child)
+}
+
+# *** Not all metadata is present for each record. Using fixed loop
+# *** to make sure lengths of columns are the same
+
+# check length of id
+r_id <-  xml_find_all(rx, ".//d1:identifier") %>% xml_text()
+i <- length(r_id)
+i
+
+
+# put metadata into data table
+category = "Working Papers"
+subcategory = 5
+id   = xml_find_all(rx, ".//d1:identifier") %>% xml_text()
+title = xml_find_all(rx, ".//dc:title" ) %>% xml_text()
+abstract = xml_find_all(rx, ".//dc:description") %>% xml_text() %>% str_squish()
+date  = xml_find_all(rx, ".//d1:datestamp") %>% xml_text()
+
+a5 <- data.table( 
+  "category" = category,
+  "subcategory" = subcategory,
+  'id' = id[1:i],
+  'title' = title[1:i],
+  'abstract'= abstract[1:i],
+  'date'  = date[1:i],
+  stringsAsFactors = FALSE )
+
+# combine all
+# combined_papers <- rbind(a1, a2, fill=TRUE)
+
+
+# --------------------------------------------------
+# A.6.		Justice and Development (n=39)
+# --------------------------------------------------
+
+# id of subcategory
+temp_id <- "16599"
+temp_url <- paste0(base, temp_id)
+
+# url for queries past first 100 docs
+temp_url0 <- paste0(base0, temp_id)
+
+# retrieve metadata first 100 docs
+r0 <- GET(temp_url)
+r0 <-content(r0, as="parsed")
+
+# check length of id
+r_id <-  xml_find_all(r0, ".//d1:identifier") %>% xml_text()
+i <- length(r_id)
+i
+
+# put metadata into data table
+category = "Working Papers"
+subcategory = 6
+id   = xml_find_all(r0, ".//d1:identifier") %>% xml_text()
+title = xml_find_all(r0, ".//dc:title" ) %>% xml_text()
+abstract = xml_find_all(r0, ".//dc:description") %>% xml_text() %>% str_squish()
+date  = xml_find_all(r0, ".//d1:datestamp") %>% xml_text()
+
+a6 <- data.table( 
+  "category" = category,
+  "subcategory" = subcategory,
+  'id' = id[1:i],
+  'title' = title[1:i],
+  'abstract'= abstract[1:i],
+  'date'  = date[1:i],
+  stringsAsFactors = FALSE )
 
 
 
